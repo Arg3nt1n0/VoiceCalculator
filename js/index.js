@@ -1,59 +1,23 @@
-function init() {
-document.addEventListener("deviceready", deviceready, true);
+document.addEventListener("deviceready", function()
+{
+	capturador = navigator.device.capture;
+}, false);
+
+function CapturarAudio()
+{
+	capturador.captureAudio(capturaOK, capturaError);
 }
 
-function deviceready() {
-console.log('loaded');
-
-window.plugins.speechrecognizer.init(speechInitOk, speechInitFail);
-
-function speechInitOk() {
-$("#micButton").removeAttr("disabled");
+function capturaError()
+{
+	alert("Error al capturar");
 }
 
-function speechInitFail(e) {
-//Since this isn't critical, we don't care...
-}
-
-$("#micButton").bind("touchstart", function() {
-var requestCode = 4815162342;
-var maxMatches = 1;
-var promptString = "What do you want?";
-window.plugins.speechrecognizer.startRecognize(speechOk, speechFail, requestCode, maxMatches, promptString);
-});
-
-function speechOk(result) {
-var match, respObj;
-if (result) {
-respObj = JSON.parse(result);
-if (respObj) {
-var response = respObj.speechMatches.speechMatch[0];
-$("#searchField").val(response);
-$("#searchButton").trigger("touchstart");
-}
-}
-}
-
-function speechFail(m) {
-navigator.notification.alert("Sorry, I couldn't recognize you.", function() {}, "Speech Fail");
-}
-
-$("#searchButton").bind("touchstart",function() {
-var s = $.trim($("#searchField").val());
-console.log("going to search for "+s);
-
-$.getJSON("http://api.search.live.net/json.aspx?Appid="+appid+"&query="+escape(s)+"&sources=image&image.count=20", {}, function(res) {
-var results = res.SearchResponse.Image.Results;
-if(results.length == 0) {
-$("#results").html("No results!");
-return;
-}
-var s = "";
-for(var i=0; i<results.length; i++) {
-s+= "<p><img src='"+results[i].Thumbnail.Url+"'><br/><a href='"+results[i].Url+"'>"+results[i].DisplayUrl+"</a></p>";
-}
-$("#results").html(s);
-});
-
-});
+function capturaOK(archivos)
+{
+	for(var i=0; i<archivos.length; i++)
+	{
+		var ruta = archivos[i].fullPath;
+		$("#resultado_calculadora").append(ruta.text());
+	}
 }
