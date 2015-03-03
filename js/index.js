@@ -1,26 +1,59 @@
-function onDeviceReady(){
-                console.log("Device is ready");
-            }
+function init() {
+document.addEventListener("deviceready", deviceready, true);
+}
 
-            function recognizeSpeech() {
-                var maxMatches = 5;
-                var promptString = "Speak now"; // optional
-                var language = "en-US";                     // optional
-                window.plugins.speechrecognizer.startRecognize(function(result){
-                    alert(result);
-                }, function(errorMessage){
-                    console.log("Error message: " + errorMessage);
-                }, maxMatches, promptString, language);
-            }
+function deviceready() {
+console.log('loaded');
 
-            // Show the list of the supported languages
-            function getSupportedLanguages() {
-                window.plugins.speechrecognizer.getSupportedLanguages(function(languages){
-                    // display the json array
-                    alert(languages);
-                }, function(error){
-                    alert("Could not retrieve the supported languages : " + error);
-                });
-            }
+window.plugins.speechrecognizer.init(speechInitOk, speechInitFail);
 
-            document.addEventListener("deviceready", onDeviceReady, true);
+function speechInitOk() {
+$("#micButton").removeAttr("disabled");
+}
+
+function speechInitFail(e) {
+//Since this isn't critical, we don't care...
+}
+
+$("#micButton").bind("touchstart", function() {
+var requestCode = 4815162342;
+var maxMatches = 1;
+var promptString = "What do you want?";
+window.plugins.speechrecognizer.startRecognize(speechOk, speechFail, requestCode, maxMatches, promptString);
+});
+
+function speechOk(result) {
+var match, respObj;
+if (result) {
+respObj = JSON.parse(result);
+if (respObj) {
+var response = respObj.speechMatches.speechMatch[0];
+$("#searchField").val(response);
+$("#searchButton").trigger("touchstart");
+}
+}
+}
+
+function speechFail(m) {
+navigator.notification.alert("Sorry, I couldn't recognize you.", function() {}, "Speech Fail");
+}
+
+$("#searchButton").bind("touchstart",function() {
+var s = $.trim($("#searchField").val());
+console.log("going to search for "+s);
+
+$.getJSON("http://api.search.live.net/json.aspx?Appid="+appid+"&query="+escape(s)+"&sources=image&image.count=20", {}, function(res) {
+var results = res.SearchResponse.Image.Results;
+if(results.length == 0) {
+$("#results").html("No results!");
+return;
+}
+var s = "";
+for(var i=0; i<results.length; i++) {
+s+= "<p><img src='"+results[i].Thumbnail.Url+"'><br/><a href='"+results[i].Url+"'>"+results[i].DisplayUrl+"</a></p>";
+}
+$("#results").html(s);
+});
+
+});
+}
