@@ -15,8 +15,6 @@ Calculadora Básica guiada por voz.
 Jonathan Argumedo
 </author>
 
-<feature name="SpeechRecognizer">
-        <param name="android-package" value="com.phonegap.plugins.speech.SpeechRecognizer" />
-    </feature>
+<gap:plugin name="org.apache.cordova.media-capture" />
 
 </widget>
