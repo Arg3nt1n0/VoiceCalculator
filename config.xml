@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns = "http://www.w3.org/ns/widgets"
+    xmlns:gap = "http://phonegap.com/ns/1.0"
+    id        = "com.phonegap.VoiveCalculator"
+    version   = "1.0.0">
+	
+<icon src="imgs/icon.png" />
+<name>Voice Calculator</name>
+
+<description>
+Calculadora Básica guiada por voz.
+</description>
+
+<author href="clubsolaris.com/Apps" email="gowpga@hotmail.com">
+Jonathan Argumedo
+</author>
+
+<feature name="SpeechRecognizer">
+        <param name="android-package" value="com.phonegap.plugins.speech.SpeechRecognizer" />
+    </feature>
+
+</widget>
