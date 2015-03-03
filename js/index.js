@@ -8,3 +8,5 @@ function escuchar() {
                     $("#resultado_calculadora").append("Error message: " + errorMessage).text();
                 }, maxMatches, promptString, language);
             }
+
+                document.addEventListener("deviceready", onDeviceReady, true);
