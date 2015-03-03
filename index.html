@@ -12,7 +12,7 @@
 <script type="text/javascript" src="js/SpeechRecognizer.js"></script>
 <script type="text/javascript" src="js/cordova-2.0.0.js"></script>
 </head> 
-<body> 
+<body onload="init()">
 
 <div data-role="page" id="page">
 	<div data-role="header" data-theme="b">
@@ -20,8 +20,11 @@
 	</div>
 	<div data-role="content">	
     	<center>
-        <button onclick="recognizeSpeech();">Start recognition</button>
-        <button onclick="getSupportedLanguages();">Get Supported Languages</button>
+        <button id="micButton" disabled="disabled">SPEAK!</button> <input type="search" id="searchField" value="">
+
+	<input type="button" id="searchButton" value="Search">
+	
+	<div id="results"></div>
         </center>
 	</div>
 	<div data-role="footer">
