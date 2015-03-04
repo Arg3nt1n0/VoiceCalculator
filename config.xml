@@ -4,7 +4,7 @@
     id        = "com.phonegap.VoiveCalculator"
     version   = "1.0.0">
 	
-<icon src="imgs/calc.png" />
+<icon src="imgs/icon.png" />
 <name>Voice Calculator</name>
 
 <description>
